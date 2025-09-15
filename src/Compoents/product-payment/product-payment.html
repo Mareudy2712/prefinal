@@ -1,0 +1,61 @@
+<div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow max-w-2xl mx-auto mt-8">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white text-center">Checkout</h2>
+
+  <div *ngIf="checkoutItems.length > 0; else emptyCart">
+    <!-- SCROLLABLE AREA ON MOBILE -->
+    <div class="space-y-6 overflow-x-auto">
+      <div
+        *ngFor="let item of checkoutItems"
+        class="min-w-[320px] sm:min-w-full p-4 border rounded-lg dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-gray-800"
+      >
+        <!-- Product Image -->
+        <img
+          [src]="item.thumbnail"
+          [alt]="item.title"
+          class="w-full sm:w-[100px] h-28 object-contain rounded border border-gray-200 dark:border-gray-600 bg-white"
+        />
+
+        <!-- Product Details -->
+        <div class="flex-1 sm:px-4 space-y-1">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+            {{ item.title }}
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Quantity: {{ item.addcart }}</p>
+        </div>
+
+        <!-- Product Total Price -->
+        <div class="text-right min-w-[80px]">
+          <p class="text-gray-800 dark:text-white font-bold text-base">
+            ${{
+              (item.price - (item.price * item.discountPercentage) / 100) * item.addcart
+                | number : '1.2-2'
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-6 border-gray-300 dark:border-gray-600" />
+
+    <!-- Total Price -->
+    <div class="flex justify-between items-center text-lg font-semibold mb-6">
+      <span class="text-gray-800 dark:text-white">Total:</span>
+      <span class="text-green-600 dark:text-green-400"> ${{ totalPrice | number : '1.2-2' }} </span>
+    </div>
+
+    <!-- Proceed Button -->
+    <button
+      class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 rounded-lg transition duration-200"
+      (click)="alert()"
+    >
+      Proceed to Payment
+    </button>
+  </div>
+
+  <!-- Empty Cart Message -->
+  <ng-template #emptyCart>
+    <p class="text-gray-500 dark:text-gray-400 text-center mt-8 text-base">
+      No items selected for checkout.
+    </p>
+  </ng-template>
+</div>
